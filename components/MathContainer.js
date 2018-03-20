@@ -1,5 +1,5 @@
 import React from 'react';
-import { Question, Answer, Keyboard } from './index';
+import { Question, Answer } from './index';
 import { PropTypes } from 'prop-types';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Dimensions from 'Dimensions';
@@ -50,7 +50,7 @@ class MathContainer extends React.Component {
   }
 
   onAnswer() {
-    if (this.state.promoteValue === this.props.data[this.state.index][3]) {
+    if (this.state.promoteValue === this.props.data[this.state.index].value) {
       this.setState({
         rights: this.state.rights + 1
       });
@@ -88,6 +88,9 @@ class MathContainer extends React.Component {
   }
 
   render() {
+    const record = this.props.data[this.state.index];
+    const Input = record.input;
+
     return (
       <View style={ styles.homeContainer }>
         <Toast
@@ -100,7 +103,7 @@ class MathContainer extends React.Component {
             hideOnPress={true}>This is a message</Toast>
 
         <View style= { styles.screen }>
-          <Question q={this.props.data[this.state.index]} />
+          <Question content={record.content} />
           <Answer promotedValue={this.state.promoteValue} />
         </View>
         <View style={ styles.statsContainer }>
@@ -112,8 +115,9 @@ class MathContainer extends React.Component {
             <Text style={{color: 'red', fontSize: 30}}>SAI: {this.state.wrongs}</Text>
           </View>
         </View>
+
         <View style= { styles.keyboard }>
-          <Keyboard
+          <Input
             onRef={ref => (this.keyboard = ref)}
             value={this.state.initialPromotedValue}
             onAnswer={this.onAnswer}
