@@ -2,6 +2,8 @@ import React from 'react';
 import { MathContainer } from './components';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { NumberButtons } from './components/user-inputs';
+
 export default class App extends React.Component {
   constructor(props) {
     super();
@@ -10,13 +12,23 @@ export default class App extends React.Component {
     let data = [];
     for (let i = 2; i <= 5; i++) {
       for (let j = 1; j <= 10; j++) {
-        data.push([i, 'x', j, i * j]);
+        data.push({
+          type: 'SIMPLE',
+          content: `${i} x ${j} = `,
+          value: i * j,
+          input: NumberButtons
+        });
       }
     }
 
     for (let i = 2; i <= 5; i++) {
       for (let j = 1; j <= 10; j++) {
-        data.push([i * j, ':', i, j]);
+        data.push({
+          type: 'SIMPLE',
+          content: `${(i * j)} : ${i} = `,
+          value: j,
+          input: NumberButtons
+        });
       }
     }
 
