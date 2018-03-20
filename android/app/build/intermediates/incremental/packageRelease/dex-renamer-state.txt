@@ -1,0 +1,4 @@
+#Tue Mar 20 00:41:38 ICT 2018
+base.0=/var/www/github-contribution/reactnative-math-quiz/android/app/build/intermediates/transforms/dex/release/folders/1000/1f/main
+renamed.0=classes.dex
+file.0=/var/www/github-contribution/reactnative-math-quiz/android/app/build/intermediates/transforms/dex/release/folders/1000/1f/main/classes.dex
