@@ -14,7 +14,7 @@ function BtnNumber(props) {
   );
 }
 
-class Keyboard extends React.Component {
+class NumberButtons extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -156,10 +156,10 @@ let styles = StyleSheet.create({
   }
 });
 
-Keyboard.propTypes = {
+NumberButtons.propTypes = {
   onResultChange: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
   onRef: PropTypes.func.isRequired
 };
 
-export default Keyboard;
+export default NumberButtons;
