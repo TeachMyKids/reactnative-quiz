@@ -19,54 +19,29 @@ class SelectOne extends React.Component {
     super(props, context);
 
     this.state = {
-      result: 0
+
     };
 
-    this.back = this.back.bind(this);
+    this.onButtonPress = this.onButtonPress.bind(this);
   }
 
-  componentDidMount() {
-    this.props.onRef(this);
-  }
-
-  onNumberEnter(val) {
-    const newVal = (this.state.result * 10) + val;
-    this.setState({
-      result: newVal
-    });
-
-    this.props.onResultChange(newVal);
-  }
-
-  back() {
-    const newVal = Math.floor(this.state.result / 10);
-
-    this.setState({
-      result: newVal
-    });
-
-    this.props.onResultChange(newVal);
-  }
-
-  reset() {
-    this.setState({
-      result: 0
-    });
+  onButtonPress(newVal) {
+    this.props.onAnswer(newVal);
   }
 
   render() {
+    let buttonWidth = (width / this.props.answers.length) - 10; // subtract the padding by 10
+
     return (
       <View style={ styles.main }>
         <View style={ styles.row }>
-          <View style={ styles.buttonContainer }>
-            <BtnInput onPress={this.onNumberEnter.bind(this, 1)} style={ styles.button } textStyle={ styles.btnTextStyle } title="1"/>
-          </View>
-          <View style={ styles.buttonContainer }>
-            <BtnInput onPress={this.onNumberEnter.bind(this, 2)} style={ styles.button } textStyle={ styles.btnTextStyle } title="2" />
-          </View>
-          <View style={ styles.buttonContainer }>
-            <BtnInput onPress={this.onNumberEnter.bind(this, 3)} style={ styles.button } textStyle={ styles.btnTextStyle } title="3" />
-          </View>
+          {this.props.answers.map((answer, index) => {
+            return (
+              <View style={[ styles.buttonContainer, { width: buttonWidth } ]} key={index}>
+                <BtnInput onPress={() => this.onButtonPress(answer.value)} style={ styles.button } textStyle={ styles.btnTextStyle } title={answer.text}/>
+              </View>
+            )
+          })}
         </View>
       </View>
     );
@@ -92,8 +67,7 @@ let styles = StyleSheet.create({
     // backgroundColor: '#ff0000',
   },
   buttonContainer: {
-    margin: 5,
-    width: (width / 3 - 10) / 6 * 5
+    margin: 5
   },
   button: {
     backgroundColor: 'orange',
@@ -102,23 +76,15 @@ let styles = StyleSheet.create({
     borderRadius: 15,
     height: 45
   },
-  green: {
-    backgroundColor: 'green'
-  },
   btnTextStyle: {
     fontSize: 20,
     color: '#fff'
-  },
-  red: {
-    backgroundColor: 'red'
   }
 });
 
 SelectOne.propTypes = {
-  options: PropTypes
-  onResultChange: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
-  onRef: PropTypes.func.isRequired
+  answers: PropTypes.array.isRequired
 };
 
 export default SelectOne;
