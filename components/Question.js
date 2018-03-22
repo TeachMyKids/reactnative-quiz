@@ -9,31 +9,26 @@ class Question extends React.Component {
     super(props, context);
 
     this.state = {
-      q: this.props.q,
-      statement: ''
+      content: this.props.content
     };
   }
 
-  componentDidMount() {
-    this.updateStatement(this.props.q);
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.q !== this.state.q) {
-      this.updateStatement(nextProps.q);
+    if (nextProps.content !== this.state.content) {
+      this.updateStatement(nextProps.content);
     }
   }
 
-  updateStatement(q) {
+  updateStatement(content) {
     this.setState({
-      statement: `${q[0]} ${q[1]} ${q[2]}`
+      content
     });
   }
 
   render() {
     return (
       <View style={ styles.questionContainer }>
-        <Text style={ styles.question }>{this.state.statement} = </Text>
+        <Text style={ styles.question }>{this.state.content}</Text>
       </View>
     );
   }
@@ -50,7 +45,7 @@ let styles = StyleSheet.create({
 });
 
 Question.propTypes = {
-  q: PropTypes.array.isRequired
+  content: PropTypes.string.isRequired
 };
 
 export default Question;

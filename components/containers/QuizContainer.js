@@ -1,5 +1,5 @@
 import React from 'react';
-import { Question, Answer } from './index';
+import { Question } from '../index';
 import { PropTypes } from 'prop-types';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Dimensions from 'Dimensions';
@@ -8,7 +8,7 @@ import Toast from 'react-native-root-toast';
 let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
 
-class MathContainer extends React.Component {
+class QuizContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -20,7 +20,6 @@ class MathContainer extends React.Component {
     };
 
     this.onAnswer = this.onAnswer.bind(this);
-    this.onResultChange = this.onResultChange.bind(this);
     this.reset = this.reset.bind(this);
   }
 
@@ -31,12 +30,9 @@ class MathContainer extends React.Component {
   next() {
     const index = Math.floor(Math.random() * this.props.data.length);
 
-    this.keyboard.reset();
-
     this.setState({
       index,
-      promoteValue: '',
-      initialPromotedValue: ''
+      promoteValue: ''
     });
   }
 
@@ -49,8 +45,8 @@ class MathContainer extends React.Component {
     this.next();
   }
 
-  onAnswer() {
-    if (this.state.promoteValue === this.props.data[this.state.index].value) {
+  onAnswer(val) {
+    if (val === this.props.data[this.state.index].value) {
       this.setState({
         rights: this.state.rights + 1
       });
@@ -70,21 +66,9 @@ class MathContainer extends React.Component {
         backgroundColor: 'red',
         textColor: '#fff'
       });
-
-      // toastr.error('SAI RỒI', 'BẠN CẦN HỌC BÀI VÀ LÀM BÀI CẨN THẬN HƠN');
     }
 
     this.next();
-  }
-
-  onResultChange(val) {
-    this.setState({
-      promoteValue: val
-    });
-
-    if (this.toast) {
-      Toast.hide(this.toast);
-    }
   }
 
   render() {
@@ -104,8 +88,8 @@ class MathContainer extends React.Component {
 
         <View style= { styles.screen }>
           <Question content={record.content} />
-          <Answer promotedValue={this.state.promoteValue} />
         </View>
+
         <View style={ styles.statsContainer }>
           <View style={ styles.statsRights }>
             <Text style={{color: 'green', fontSize: 30}}>ĐÚNG: {this.state.rights}</Text>
@@ -116,12 +100,10 @@ class MathContainer extends React.Component {
           </View>
         </View>
 
-        <View style= { styles.keyboard }>
+        <View style= { styles.userInput }>
           <Input
-            onRef={ref => (this.keyboard = ref)}
-            value={this.state.initialPromotedValue}
             onAnswer={this.onAnswer}
-            onResultChange={this.onResultChange}
+            answers={ record.answers }
           />
         </View>
 
@@ -162,7 +144,7 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     height: 300
   },
-  keyboard: {
+  userInput: {
     paddingTop: 20,
     width: width,
     backgroundColor: '#ddd',
@@ -175,8 +157,8 @@ let styles = StyleSheet.create({
   }
 });
 
-MathContainer.propTypes = {
+QuizContainer.propTypes = {
   data: PropTypes.array.isRequired
 };
 
-export default MathContainer;
+export default QuizContainer;
