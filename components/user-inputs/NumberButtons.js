@@ -23,10 +23,13 @@ class NumberButtons extends React.Component {
     };
 
     this.back = this.back.bind(this);
+    this.onAnswer = this.onAnswer.bind(this);
   }
 
   componentDidMount() {
     this.props.onRef(this);
+
+    this.isComponentDidMounted = true;
   }
 
   onNumberEnter(val) {
@@ -41,6 +44,7 @@ class NumberButtons extends React.Component {
   back() {
     const newVal = Math.floor(this.state.result / 10);
 
+
     this.setState({
       result: newVal
     });
@@ -48,10 +52,20 @@ class NumberButtons extends React.Component {
     this.props.onResultChange(newVal);
   }
 
+  componentWillUnmount() {
+    this.isComponentDidMounted = false;
+  }
+
   reset() {
-    this.setState({
-      result: 0
-    });
+    if (this.isComponentDidMounted) {
+      this.setState({
+        result: 0
+      });
+    }
+  }
+
+  onAnswer() {
+    this.props.onAnswer(this.state.result);
   }
 
   render() {
@@ -103,7 +117,7 @@ class NumberButtons extends React.Component {
           </View>
 
           <View style={ styles.buttonContainer }>
-            <BtnNumber onPress={this.props.onAnswer} style={[ styles.button, styles.green ]} textStyle={ styles.btnTextStyle } title="=" />
+            <BtnNumber onPress={() => this.onAnswer()} style={[ styles.button, styles.green ]} textStyle={ styles.btnTextStyle } title="=" />
           </View>
 
           <View style={ styles.buttonContainer }>
