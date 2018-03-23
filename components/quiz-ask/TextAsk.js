@@ -27,14 +27,24 @@ class TextAsk extends React.Component {
 
   render() {
     return (
-      <View style={ styles.questionContainer }>
-        <Text style={ styles.question }>{this.state.content}</Text>
+      <View style= { styles.screen }>
+        <View style={ styles.questionContainer }>
+          <Text style={ styles.question }>{this.state.content}</Text>
+        </View>
       </View>
     );
   }
 }
 
 let styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    padding: 30,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 300
+  },
   questionContainer: {
     margin: 30
   },
