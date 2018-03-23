@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Dimensions from 'Dimensions';
 let width = Dimensions.get('window').width;
 
-class Question extends React.Component {
+class TextAsk extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -27,14 +27,24 @@ class Question extends React.Component {
 
   render() {
     return (
-      <View style={ styles.questionContainer }>
-        <Text style={ styles.question }>{this.state.content}</Text>
+      <View style= { styles.screen }>
+        <View style={ styles.questionContainer }>
+          <Text style={ styles.question }>{this.state.content}</Text>
+        </View>
       </View>
     );
   }
 }
 
 let styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    padding: 30,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 300
+  },
   questionContainer: {
     margin: 30
   },
@@ -44,8 +54,8 @@ let styles = StyleSheet.create({
   }
 });
 
-Question.propTypes = {
+TextAsk.propTypes = {
   content: PropTypes.string.isRequired
 };
 
-export default Question;
+export default TextAsk;

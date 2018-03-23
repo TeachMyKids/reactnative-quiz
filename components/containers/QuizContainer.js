@@ -8,6 +8,8 @@ import Toast from 'react-native-root-toast';
 let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
 
+import InputSelector from '../user-inputs/input-selector';
+
 class QuizContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -21,6 +23,7 @@ class QuizContainer extends React.Component {
 
     this.onAnswer = this.onAnswer.bind(this);
     this.reset = this.reset.bind(this);
+    this.onResultChange = this.onResultChange.bind(this);
   }
 
   componentDidMount() {
@@ -30,9 +33,13 @@ class QuizContainer extends React.Component {
   next() {
     const index = Math.floor(Math.random() * this.props.data.length);
 
+    if (typeof this.input.reset == 'function') {
+      this.input.reset();
+    }
+
     this.setState({
       index,
-      promoteValue: ''
+      promotedValue: ''
     });
   }
 
@@ -71,9 +78,19 @@ class QuizContainer extends React.Component {
     this.next();
   }
 
+  onResultChange(val) {
+    this.setState({
+      promotedValue: val
+    });
+
+    if (this.toast) {
+      Toast.hide(this.toast);
+    }
+  }
+
   render() {
     const record = this.props.data[this.state.index];
-    const Input = record.input;
+    const Ask = record.ask.type;
 
     return (
       <View style={ styles.homeContainer }>
@@ -86,9 +103,7 @@ class QuizContainer extends React.Component {
             animation={false}
             hideOnPress={true}>This is a message</Toast>
 
-        <View style= { styles.screen }>
-          <Question content={record.content} />
-        </View>
+        <Ask content={record.ask.content} promotedValue={this.state.promotedValue}/>
 
         <View style={ styles.statsContainer }>
           <View style={ styles.statsRights }>
@@ -101,9 +116,11 @@ class QuizContainer extends React.Component {
         </View>
 
         <View style= { styles.userInput }>
-          <Input
+          <InputSelector
+            record={record}
             onAnswer={this.onAnswer}
-            answers={ record.answers }
+            onResultChange={this.onResultChange}
+            onRef={ref => (this.input = ref)}
           />
         </View>
 
@@ -135,14 +152,6 @@ let styles = StyleSheet.create({
   statsWrongs: {
     width: width / 2,
     alignItems: 'center'
-  },
-  screen: {
-    flex: 1,
-    padding: 30,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 300
   },
   userInput: {
     paddingTop: 20,
