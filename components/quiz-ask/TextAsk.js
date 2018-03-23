@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Dimensions from 'Dimensions';
 let width = Dimensions.get('window').width;
 
-class Question extends React.Component {
+class TextAsk extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -44,8 +44,8 @@ let styles = StyleSheet.create({
   }
 });
 
-Question.propTypes = {
+TextAsk.propTypes = {
   content: PropTypes.string.isRequired
 };
 
-export default Question;
+export default TextAsk;

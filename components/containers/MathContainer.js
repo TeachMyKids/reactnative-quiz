@@ -1,5 +1,5 @@
 import React from 'react';
-import { Question, Answer } from '../index';
+import { Answer } from '../index';
 import { PropTypes } from 'prop-types';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Dimensions from 'Dimensions';
@@ -90,6 +90,7 @@ class MathContainer extends React.Component {
   render() {
     const record = this.props.data[this.state.index];
     const Input = record.input;
+    const Ask = record.ask.type;
 
     return (
       <View style={ styles.homeContainer }>
@@ -103,7 +104,7 @@ class MathContainer extends React.Component {
             hideOnPress={true}>This is a message</Toast>
 
         <View style= { styles.screen }>
-          <Question content={record.content} />
+          <Ask content={record.ask.content} />
           <Answer promotedValue={this.state.promoteValue} />
         </View>
         <View style={ styles.statsContainer }>
