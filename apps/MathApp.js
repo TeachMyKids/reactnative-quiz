@@ -1,8 +1,8 @@
 import React from 'react';
-import { MathContainer } from './components';
+import { MathContainer } from '../components/containers';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { NumberButtons } from './components/user-inputs';
+import { NumberButtons } from '../components/user-inputs';
 
 export default class App extends React.Component {
   constructor(props) {

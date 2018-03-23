@@ -1,3 +1,3 @@
-import { QuizApp } from './apps';
+import { MathApp } from './apps';
 
-export default QuizApp;
+export default MathApp;

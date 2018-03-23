@@ -1,5 +1,5 @@
 import React from 'react';
-import { Question, Answer } from './index';
+import { Question, Answer } from '../index';
 import { PropTypes } from 'prop-types';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Dimensions from 'Dimensions';
