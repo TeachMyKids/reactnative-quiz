@@ -1,3 +1,3 @@
-import { MathApp } from './apps';
+import { AllApp } from './apps';
 
-export default MathApp;
+export default AllApp;
