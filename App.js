@@ -1,3 +1,3 @@
-import { AllApp } from './apps';
+import { ImageQuizApp } from './apps';
 
-export default AllApp;
+export default ImageQuizApp;

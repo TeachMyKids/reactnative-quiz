@@ -33,7 +33,7 @@ class QuizContainer extends React.Component {
   next() {
     const index = Math.floor(Math.random() * this.props.data.length);
 
-    if (typeof this.input.reset == 'function') {
+    if (this.input && typeof this.input.reset == 'function') {
       this.input.reset();
     }
 
