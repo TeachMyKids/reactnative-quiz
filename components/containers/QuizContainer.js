@@ -1,9 +1,10 @@
 import React from 'react';
-import { Question } from '../index';
 import { PropTypes } from 'prop-types';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Dimensions from 'Dimensions';
 import Toast from 'react-native-root-toast';
+
+import * as ask from '../quiz-ask/index';
 
 let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
@@ -19,12 +20,18 @@ class QuizContainer extends React.Component {
       rights: 0,
       wrongs: 0,
       visible: false,
-      data: this.props.data.sort(function(a, b){return 0.5 - Math.random()})
+      data: this.props.data.sort(function(a, b){return 0.5 - Math.random()}),
+      inputState: {
+        fillInBlank: {
+          fieldIndex: 0
+        }
+      }
     };
 
     this.onAnswer = this.onAnswer.bind(this);
     this.reset = this.reset.bind(this);
     this.onResultChange = this.onResultChange.bind(this);
+    this.onAskChange = this.onAskChange.bind(this);
   }
 
   next() {
@@ -56,8 +63,18 @@ class QuizContainer extends React.Component {
     this.next();
   }
 
+  isArrayEquals(a, b) {
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   onAnswer(val) {
-    if (val === this.state.data[this.state.index].value) {
+    if ((Array.isArray(val) && this.isArrayEquals(val, this.state.data[this.state.index].value)) || val == this.state.data[this.state.index].value) {
       this.setState({
         rights: this.state.rights + 1
       });
@@ -83,13 +100,30 @@ class QuizContainer extends React.Component {
   }
 
   onResultChange(val) {
-    console.log(val);
     this.setState({
       promotedValue: val
     });
 
     if (this.toast) {
       Toast.hide(this.toast);
+    }
+  }
+
+  changeFieldIndex() {}
+
+  onAskChange(record, event) {
+    if (record.ask.type === ask.FillInBlank) {
+      if (event.method === 'UPDATE_INDEX') {
+        this.setState({
+          inputState: {
+            ...this.state.inputState,
+            fillInBlank: {
+              ...this.state.inputState.fillInBlank,
+              fieldIndex: event.data
+            }
+          }
+        })
+      }
     }
   }
 
@@ -108,7 +142,9 @@ class QuizContainer extends React.Component {
             animation={false}
             hideOnPress={true}>This is a message</Toast>
 
-        <Ask content={record.ask.content} promotedValue={this.state.promotedValue}/>
+        <Ask content={record.ask.content} promotedValue={this.state.promotedValue} onChange={(event) => {
+          this.onAskChange(record, event)
+        }}/>
 
         <View style={ styles.statsContainer }>
           <View style={ styles.statsRights }>
@@ -126,6 +162,7 @@ class QuizContainer extends React.Component {
             onAnswer={this.onAnswer}
             onResultChange={this.onResultChange}
             onRef={ref => (this.input = ref)}
+            inputState={this.state.inputState}
           />
         </View>
 
