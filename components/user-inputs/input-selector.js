@@ -7,9 +7,21 @@ function selector(props) {
       return (
         <inputs.SelectOne
           onAnswer={props.onAnswer}
-          answers={props.record.answers}
+          answers={props.record.input.answers}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
+        />
+      );
+      break;
+    case inputs.SelectValues:
+      return (
+        <inputs.SelectValues
+          onAnswer={props.onAnswer}
+          answers={props.record.input.answers}
+          inputLength={props.record.value.length}
+          onRef={props.onRef}
+          onResultChange={props.onResultChange}
+          inputState={props.inputState}
         />
       );
       break;
