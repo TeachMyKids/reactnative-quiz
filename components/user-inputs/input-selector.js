@@ -28,7 +28,7 @@ function selector(props) {
           onAnswer={props.onAnswer}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
-          wordLength={props.record.input.wordLength}
+          wordLength={props.record.value.length}
           symbols={props.record.input.symbols}
         />
       );

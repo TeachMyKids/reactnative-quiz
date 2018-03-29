@@ -18,7 +18,8 @@ class QuizContainer extends React.Component {
       index: 0,
       rights: 0,
       wrongs: 0,
-      visible: false
+      visible: false,
+      data: this.props.data.sort(function(a, b){return 0.5 - Math.random()})
     };
 
     this.onAnswer = this.onAnswer.bind(this);
@@ -26,12 +27,9 @@ class QuizContainer extends React.Component {
     this.onResultChange = this.onResultChange.bind(this);
   }
 
-  componentDidMount() {
-    this.next();
-  }
-
   next() {
-    const index = Math.floor(Math.random() * this.props.data.length);
+    const index = this.state.index === this.props.data.length - 1 ? 0 : this.state.index + 1;
+    console.log(index);
 
     if (this.input && typeof this.input.reset == 'function') {
       this.input.reset();
@@ -53,7 +51,7 @@ class QuizContainer extends React.Component {
   }
 
   onAnswer(val) {
-    if (val === this.props.data[this.state.index].value) {
+    if (val === this.state.data[this.state.index].value) {
       this.setState({
         rights: this.state.rights + 1
       });
@@ -79,6 +77,7 @@ class QuizContainer extends React.Component {
   }
 
   onResultChange(val) {
+    console.log(val);
     this.setState({
       promotedValue: val
     });
@@ -89,7 +88,7 @@ class QuizContainer extends React.Component {
   }
 
   render() {
-    const record = this.props.data[this.state.index];
+    const record = this.state.data[this.state.index];
     const Ask = record.ask.type;
 
     return (
@@ -161,7 +160,9 @@ let styles = StyleSheet.create({
     height: 270
   },
   btnActions: {
-    width: width / 3,
+    width: width - 10,
+    marginRight: 30,
+    alignItems: 'flex-end',
     marginBottom: 20,
     marginTop: 20
   }

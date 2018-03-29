@@ -9,9 +9,7 @@ export default class WordInputApp extends React.Component {
     super();
     this.props = props;
 
-    let data = [];
-
-    data.push({
+    let data = [{
       ask: {
         type: ImageAsk,
         content: require('../assets/images/5.jpg')
@@ -19,12 +17,36 @@ export default class WordInputApp extends React.Component {
       value: 'HELLO',
       input: {
         type: EnterWord,
-        wordLength: 5,
         symbols: [
           'A', 'X', 'H', 'E', 'L', 'L', 'O', 'V', 'D', 'P'
         ]
       }
-    });
+    },
+    {
+      ask: {
+        type: ImageAsk,
+        content: require('../assets/images/5.jpg')
+      },
+      value: 'COW',
+      input: {
+        type: EnterWord,
+        symbols: [
+          'C', 'O', 'W'
+        ]
+      }
+    },{
+      ask: {
+        type: ImageAsk,
+        content: require('../assets/images/5.jpg')
+      },
+      value: 'HAPPY',
+      input: {
+        type: EnterWord,
+        symbols: [
+          'H', 'A', 'H', 'E', 'L', 'L', 'Y', 'V', 'D', 'P'
+        ]
+      }
+    }];
 
     this.state = {
       data

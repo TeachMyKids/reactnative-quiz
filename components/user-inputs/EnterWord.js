@@ -1,15 +1,18 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import MyButton from './Button';
 import Dimensions from 'Dimensions';
 let width = Dimensions.get('window').width;
 
 function CharInput(props) {
+  // console.log(props.isHighlight)
   return (
-    <View style={ props.style }>
-      <Text style={props.textStyle}>C</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={props.onPress}>
+      <View style={[ props.style, props.isHighlight ? props.charHighlightStyle: null ]}>
+        <Text style={ props.textStyle }>{props.char}</Text>
+      </View>
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -17,16 +20,13 @@ class EnterWord extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      result: 0
-    };
-
     this.onAnswer = this.onAnswer.bind(this);
-    this._renderInput = this._renderInput.bind(this);
 
     this.state = {
       wordLength: this.props.wordLength,
-      symbols: this.props.symbols
+      symbols: this.props.symbols,
+      currentCharIndex: 0,
+      chars: new Array(this.props.wordLength)
     }
   }
 
@@ -36,6 +36,20 @@ class EnterWord extends React.Component {
     this.isComponentDidMounted = true;
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.symbols !== this.state.symbols) {
+      this.setState({
+        symbols: nextProps.symbols
+      })
+    }
+
+    if (nextProps.wordLength !== this.state.wordLength) {
+      this.setState({
+        wordLength: nextProps.wordLength
+      });
+    }
+  }
+
   componentWillUnmount() {
     this.isComponentDidMounted = false;
   }
@@ -43,50 +57,88 @@ class EnterWord extends React.Component {
   reset() {
     if (this.isComponentDidMounted) {
       this.setState({
-        result: 0
+        chars: new Array(this.props.wordLength),
+        currentCharIndex: 0
       });
     }
   }
 
-  _renderInput() {
-    let inputs = [];
-    for (let i = 0; i < this.state.wordLength; i++) {
-      inputs.push(<CharInput key={i} style={ styles.charInputContainer } textStyle={ styles.charInput }/>);
+  buttonPress(char) {
+    let newAnswer = [
+      ...this.state.chars
+    ];
+    newAnswer[this.state.currentCharIndex] = char;
+
+    let currentCharIndex = this.state.currentCharIndex;
+    if (this.state.currentCharIndex < this.state.wordLength - 1) {
+      currentCharIndex = currentCharIndex + 1;
     }
 
-    return (
-      <View style={ styles.wordInputContainer }>
-        {inputs}
-      </View>
-    );
+    this.setState({
+      currentCharIndex,
+      chars: newAnswer
+    });
+
+    this.props.onResultChange(newAnswer.join(''));
+  }
+
+  setCharIndex(index) {
+    this.setState({
+      currentCharIndex: index
+    });
   }
 
   onAnswer() {
-    this.props.onAnswer(this.state.result);
+    this.props.onAnswer(this.state.chars.join(''));
   }
 
   render() {
+    let inputs = [];
+    for (let i = 0; i < this.state.wordLength; i++) {
+      inputs.push(
+        <CharInput key={i}
+          onPress={() => {
+            this.setCharIndex(i)
+          }}
+          char={this.state.chars[i]}
+          style={ styles.charInputContainer }
+          textStyle={ styles.charInput }
+          isHighlight={i === this.state.currentCharIndex}
+          charHighlightStyle={ styles.charHighlightStyle }
+        />
+      );
+    }
+
     return (
       <View style={ styles.main }>
-        <this._renderInput />
+        <View style={ styles.wordInputContainer }>
+          {inputs}
+        </View>
         <View style={ styles.wordButtonContainer }>
           {this.state.symbols.map((char, index) => {
             return (
-              <MyButton key={index} title={char} style={ styles.charButtonContainer } textStyle={ styles.charButton }/>
+              <MyButton
+                key={index}
+                title={char}
+                style={ styles.charButtonContainer }
+                textStyle={ styles.charButton }
+                onPress={() => {
+                  this.buttonPress(char)
+                }}
+              />
             )
           })}
         </View>
-        {/* <View style={ styles.row }>
-          <View style={ styles.buttonContainer }>
-            <BtnNumber onPress={this.onNumberEnter.bind(this, 1)} style={ styles.button } textStyle={ styles.btnTextStyle } title="1"/>
-          </View>
-          <View style={ styles.buttonContainer }>
-            <BtnNumber onPress={this.onNumberEnter.bind(this, 2)} style={ styles.button } textStyle={ styles.btnTextStyle } title="2" />
-          </View>
-          <View style={ styles.buttonContainer }>
-            <BtnNumber onPress={this.onNumberEnter.bind(this, 3)} style={ styles.button } textStyle={ styles.btnTextStyle } title="3" />
-          </View>
-        </View> */}
+        <View style={ styles.answerContainer }>
+          <MyButton
+            title='Trả Lời'
+            style={ styles.answerButton }
+            textStyle={ styles.answerButtonTextStyle }
+            onPress={() => {
+              this.onAnswer()
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -127,12 +179,34 @@ let styles = StyleSheet.create({
     fontSize: 25
   },
 
+  charHighlightStyle: {
+    borderColor: 'blue',
+    borderWidth: 2
+  },
+
   charButton: {
     fontWeight: 'bold',
     color: '#fff',
     fontSize: 25
   },
 
+  answerButtonTextStyle: {
+    fontWeight: 'bold',
+    color: '#fff',
+    fontSize: 23
+  },
+
+  answerButton: {
+    alignSelf: 'center',
+    margin: 5,
+
+    backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    height: 45,
+    width: 150
+  },
   charButtonContainer: {
     alignSelf: 'center',
     margin: 5,
