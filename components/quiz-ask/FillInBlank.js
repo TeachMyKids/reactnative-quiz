@@ -83,11 +83,11 @@ class FillInBlank extends React.Component {
             this.state.words.map((word, index) => {
               if (word.isBlankField) {
                 return (
-                  <TouchableWithoutFeedback onPress={() => {
+                  <TouchableWithoutFeedback key={index} onPress={() => {
                     this.onPress(word)
                   }}>
                     <View style={[ styles.blankFieldContainer , word.index === this.state.currentIndex ? styles.selectedBlankFieldContainer : null ]}>
-                      <Text key={index} style={ styles.textInBlank }>{word.word} </Text>
+                      <Text style={ styles.textInBlank }>{word.word} </Text>
                     </View>
                   </TouchableWithoutFeedback>
                 )
