@@ -14,7 +14,8 @@ class FillInBlank extends React.Component {
       content: this.props.content,
       words,
       answer,
-      currentIndex: 0
+      currentIndex: 0,
+      promotedValue: this.props.promotedValue
     };
 
     this.onPress = this.onPress.bind(this);
@@ -37,14 +38,14 @@ class FillInBlank extends React.Component {
         });
 
         answer.push(part);
+
+        i = i + 1;
       } else {
         words.push({
           word: part,
           isBlankField: false
         });
       }
-
-      i = i + 1;
     });
 
     return {
@@ -56,6 +57,12 @@ class FillInBlank extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.content !== this.state.content) {
       this.updateStatement(nextProps.content);
+    }
+
+    if (nextProps.promotedValue !== this.state.promotedValue) {
+      this.setState({
+        promotedValue: nextProps.promotedValue
+      });
     }
   }
 
@@ -72,10 +79,17 @@ class FillInBlank extends React.Component {
   onPress(word) {
     this.setState({
       currentIndex: word.index
-    })
+    });
+
+    this.props.onChange({
+      method: 'UPDATE_INDEX',
+      data: word.index
+    });
   }
 
   render() {
+
+    // console.log(this.state.promotedValue);
     return (
       <View style= { styles.screen }>
         <View style={ styles.questionContainer }>
@@ -87,7 +101,7 @@ class FillInBlank extends React.Component {
                     this.onPress(word)
                   }}>
                     <View style={[ styles.blankFieldContainer , word.index === this.state.currentIndex ? styles.selectedBlankFieldContainer : null ]}>
-                      <Text style={ styles.textInBlank }>{word.word} </Text>
+                      <Text style={ styles.textInBlank }>{(this.state.promotedValue && this.state.promotedValue[word.index]) ? this.state.promotedValue[word.index] : word.word} </Text>
                     </View>
                   </TouchableWithoutFeedback>
                 )
