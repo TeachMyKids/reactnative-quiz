@@ -2,7 +2,7 @@ import React from 'react';
 import { QuizContainer } from '../components/containers';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextAsk, TextAskWithResult, ImageAsk, FillInBlank } from '../components/quiz-ask';
-import { EnterWord } from '../components/user-inputs';
+import { SelectValues } from '../components/user-inputs';
 
 export default class FillInBlankApp extends React.Component {
   constructor(props) {
@@ -14,11 +14,17 @@ export default class FillInBlankApp extends React.Component {
         type: FillInBlank,
         content: `_______ gonna change my love for ___`
       },
-      value: 'HELLO',
+      value: [
+        'Nothing',
+        'you'
+      ],
       input: {
-        type: EnterWord,
-        symbols: [
-          'A', 'X', 'H', 'E', 'L', 'L', 'O', 'V', 'D', 'P'
+        type: SelectValues,
+        answers: [
+          {text: 'Nothing', value: 'Nothing'},
+          {text: 'gonna', value: 'gonna'},
+          {text: 'you', value: 'you'},
+          {text: 'me', value: 'me'}
         ]
       }
     }];
