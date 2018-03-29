@@ -28,17 +28,23 @@ class QuizContainer extends React.Component {
   }
 
   next() {
-    const index = this.state.index === this.props.data.length - 1 ? 0 : this.state.index + 1;
-    console.log(index);
+    if (this.state.index === this.props.data.length - 1) {
+      this.setState({
+        data: this.props.data.sort(function(a, b){return 0.5 - Math.random()}),
+        index: 0,
+        promotedValue: ''
+      });
+    } else {
+      this.setState({
+        index: this.state.index + 1,
+        promotedValue: ''
+      });
+    }
 
     if (this.input && typeof this.input.reset == 'function') {
       this.input.reset();
     }
 
-    this.setState({
-      index,
-      promotedValue: ''
-    });
   }
 
   reset() {
