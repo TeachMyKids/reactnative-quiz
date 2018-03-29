@@ -57,7 +57,7 @@ class EnterWord extends React.Component {
   reset() {
     if (this.isComponentDidMounted) {
       this.setState({
-        chars: new Array(this.props.wordLength),
+        chars: new Array(this.state.wordLength),
         currentCharIndex: 0
       });
     }
@@ -147,9 +147,7 @@ class EnterWord extends React.Component {
 let styles = StyleSheet.create({
   main: {
     flex: 1,
-    flexDirection: 'column',
-    // backgroundColor: 'red'
-    // width: width / 2
+    flexDirection: 'column'
   },
   wordInputContainer: {
     flexDirection: 'row',
