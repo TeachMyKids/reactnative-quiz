@@ -24,7 +24,7 @@ class EnterWord extends React.Component {
 
     this.state = {
       wordLength: this.props.wordLength,
-      symbols: this.props.symbols,
+      symbols: this.props.symbols.sort(function(a, b){return 0.5 - Math.random()}),
       currentCharIndex: 0,
       chars: new Array(this.props.wordLength)
     }
@@ -39,7 +39,7 @@ class EnterWord extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.symbols !== this.state.symbols) {
       this.setState({
-        symbols: nextProps.symbols
+        symbols: nextProps.symbols.sort(function(a, b){return 0.5 - Math.random()})
       })
     }
 
@@ -163,20 +163,20 @@ let styles = StyleSheet.create({
   },
   charInputContainer: {
     alignSelf: 'center',
-    margin: 5,
+    margin: 3,
 
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 3,
-    height: 45,
-    width: 45,
+    height: 30,
+    width: 30,
     marginBottom: 30
   },
   charInput: {
     fontWeight: 'bold',
     color: 'green',
-    fontSize: 25
+    fontSize: 20
   },
 
   charHighlightStyle: {
