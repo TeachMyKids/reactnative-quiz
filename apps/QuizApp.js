@@ -22,7 +22,9 @@ export default class QuizApp extends React.Component {
             {text: 'DDD DD', value: 'D'}
           ],
           value: 'D',
-          input: SelectOne
+          input: {
+            type: SelectOne
+          }
         });
       }
     }

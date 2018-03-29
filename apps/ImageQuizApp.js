@@ -23,7 +23,9 @@ export default class ImageQuizApp extends React.Component {
         {text: 'DDD DD', value: 'D'}
       ],
       value: 'D',
-      input: SelectOne
+      input: {
+        type: SelectOne
+      }
     });
 
     this.state = {
