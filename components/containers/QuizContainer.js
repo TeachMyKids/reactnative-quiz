@@ -137,7 +137,8 @@ let styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#e6e7e9',
-    alignItems: 'center'
+    alignItems: 'center',
+    alignContent: 'flex-end'
   },
   statsContainer : {
     flexDirection: 'row',
