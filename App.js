@@ -1,3 +1,3 @@
-import { ImageQuizApp } from './apps';
+import { WordInputApp } from './apps';
 
-export default ImageQuizApp;
+export default WordInputApp;

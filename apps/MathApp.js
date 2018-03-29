@@ -18,7 +18,9 @@ export default class App extends React.Component {
             content: `${i} x ${j} = `
           },
           value: i * j,
-          input: NumberButtons
+          input: {
+            type: NumberButtons
+          }
         });
       }
     }
@@ -31,7 +33,9 @@ export default class App extends React.Component {
             content: `${(i * j)} : ${i} = `
           },
           value: j,
-          input: NumberButtons
+          input: {
+            type: NumberButtons
+          }
         });
       }
     }
