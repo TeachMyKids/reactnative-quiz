@@ -112,11 +112,11 @@ class QuizContainer extends React.Component {
 
         <View style={ styles.statsContainer }>
           <View style={ styles.statsRights }>
-            <Text style={{color: 'green', fontSize: 30}}>ĐÚNG: {this.state.rights}</Text>
+            <Text style={{color: 'green', fontSize: 20}}>ĐÚNG: {this.state.rights}</Text>
           </View>
 
           <View style={ styles.statsWrongs }>
-            <Text style={{color: 'red', fontSize: 30}}>SAI: {this.state.wrongs}</Text>
+            <Text style={{color: 'red', fontSize: 20}}>SAI: {this.state.wrongs}</Text>
           </View>
         </View>
 
@@ -149,7 +149,7 @@ let styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'orange',
-    height: 60
+    height: 40
   },
   statsRights: {
     width: width / 2,
