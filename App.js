@@ -1,3 +1,3 @@
-import { WordInputApp } from './apps';
+import { FillInBlankApp } from './apps';
 
-export default WordInputApp;
+export default FillInBlankApp;
