@@ -7,7 +7,7 @@ import MyButton from './Button';
 
 let width = Dimensions.get('window').width;
 
-class SelectValues extends React.Component {
+class SelectOrderedValues extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -27,8 +27,6 @@ class SelectValues extends React.Component {
     if (!Array.isArray(a) || !Array.isArray(b)) return false;
     if (a.length != b.length) return false;
 
-    a.sort();
-    b.sort();
     for (let i = 0; i < a.length; i++) {
       if (a[i] !== b[i]) {
         return false;
@@ -172,10 +170,10 @@ let styles = StyleSheet.create({
   }
 });
 
-SelectValues.propTypes = {
+SelectOrderedValues.propTypes = {
   onAnswer: PropTypes.func.isRequired,
   answers: PropTypes.array.isRequired,
   expectedAnswer: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default SelectValues;
+export default SelectOrderedValues;
