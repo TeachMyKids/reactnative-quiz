@@ -17,6 +17,8 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "mobx": "^4.1.1",
+    "mobx-react": "^5.0.0",
     "prop-types": "^15.6.1",
     "react": "16.2.0",
     "react-native": "0.52.0",
