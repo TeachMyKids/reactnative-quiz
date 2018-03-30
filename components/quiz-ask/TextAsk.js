@@ -39,18 +39,18 @@ class TextAsk extends React.Component {
 let styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 30,
+    padding: 10,
     backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 300
+    height: 300,
+    width: width - 10
   },
   questionContainer: {
-    margin: 30
+    // margin: 30
   },
   question: {
-    fontSize: 50,
-    width: 200
+    fontSize: 50
   }
 });
 
