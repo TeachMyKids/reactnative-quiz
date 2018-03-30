@@ -174,7 +174,8 @@ let styles = StyleSheet.create({
 
 SelectValues.propTypes = {
   onAnswer: PropTypes.func.isRequired,
-  answers: PropTypes.array.isRequired
+  answers: PropTypes.array.isRequired,
+  expectedAnswer: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default SelectValues;

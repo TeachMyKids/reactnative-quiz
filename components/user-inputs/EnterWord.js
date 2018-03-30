@@ -89,7 +89,8 @@ class EnterWord extends React.Component {
   }
 
   onAnswer() {
-    this.props.onAnswer(this.state.chars.join(''));
+    let answer = this.state.chars.join('');
+    this.props.onAnswer(answer === this.props.expectedAnswer, answer);
   }
 
   render() {
@@ -257,7 +258,8 @@ EnterWord.propTypes = {
   onAnswer: PropTypes.func.isRequired,
   onRef: PropTypes.func.isRequired,
   wordLength: PropTypes.number.isRequired,
-  symbols: PropTypes.arrayOf(PropTypes.string)
+  symbols: PropTypes.arrayOf(PropTypes.string),
+  expectedAnswer: PropTypes.string.isRequired
 };
 
 export default EnterWord;

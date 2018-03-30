@@ -65,7 +65,7 @@ class NumberButtons extends React.Component {
   }
 
   onAnswer() {
-    this.props.onAnswer(this.state.result);
+    this.props.onAnswer(this.state.result === this.props.expectedAnswer, this.state.result);
   }
 
   render() {
@@ -173,7 +173,8 @@ let styles = StyleSheet.create({
 NumberButtons.propTypes = {
   onResultChange: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
-  onRef: PropTypes.func.isRequired
+  onRef: PropTypes.func.isRequired,
+  expectedAnswer: PropTypes.number.isRequired
 };
 
 export default NumberButtons;
