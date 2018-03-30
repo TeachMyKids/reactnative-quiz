@@ -63,18 +63,8 @@ class QuizContainer extends React.Component {
     this.next();
   }
 
-  isArrayEquals(a, b) {
-    for (let i = 0; i < a.length; i++) {
-      if (a[i] !== b[i]) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  onAnswer(val) {
-    if ((Array.isArray(val) && this.isArrayEquals(val, this.state.data[this.state.index].value)) || val == this.state.data[this.state.index].value) {
+  onAnswer(isCorrect, answer) {
+    if (isCorrect) {
       this.setState({
         rights: this.state.rights + 1
       });

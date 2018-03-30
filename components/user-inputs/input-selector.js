@@ -10,6 +10,7 @@ function selector(props) {
           answers={props.record.input.answers}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
+          expectedAnswer={props.record.value}
         />
       );
       break;
@@ -22,6 +23,7 @@ function selector(props) {
           onRef={props.onRef}
           onResultChange={props.onResultChange}
           inputState={props.inputState}
+          expectedAnswer={props.record.value}
         />
       );
       break;
@@ -31,6 +33,7 @@ function selector(props) {
           onAnswer={props.onAnswer}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
+          expectedAnswer={props.record.value}
         />
       );
       break;
@@ -42,6 +45,7 @@ function selector(props) {
           onResultChange={props.onResultChange}
           wordLength={props.record.value.length}
           symbols={props.record.input.symbols}
+          expectedAnswer={props.record.value}
         />
       );
       break;

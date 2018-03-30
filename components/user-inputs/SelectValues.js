@@ -23,6 +23,16 @@ class SelectValues extends React.Component {
     this.onAnswer = this.onAnswer.bind(this);
   }
 
+  _arrayEquals(a, b) {
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   componentDidMount() {
     this.props.onRef(this);
 
@@ -77,7 +87,7 @@ class SelectValues extends React.Component {
   }
 
   onAnswer() {
-    this.props.onAnswer(this.state.answer);
+    this.props.onAnswer(this._arrayEquals(this.state.answer, this.props.expectedAnswer), this.state.answer);
   }
 
   render() {
