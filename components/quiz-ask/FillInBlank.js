@@ -72,7 +72,8 @@ class FillInBlank extends React.Component {
     this.setState({
       content,
       words,
-      answer
+      answer,
+      currentIndex: 0
     });
   }
 

@@ -88,7 +88,7 @@ class SelectValues extends React.Component {
         <View style={ styles.row }>
           {this.state.answers.map((answer, index) => {
             return (
-              <View style={[ styles.buttonContainer, { width: buttonWidth } ]} key={index}>
+              <View style={[ styles.buttonContainer ]} key={index}>
                 <MyButton
                   onPress={() => this.onButtonPress(answer.value)}
                   style={ styles.button }
@@ -153,7 +153,8 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,
-    height: 45
+    height: 45,
+    padding: 10
   },
   btnTextStyle: {
     fontSize: 20,
