@@ -23,6 +23,16 @@ class SelectValues extends React.Component {
     this.onAnswer = this.onAnswer.bind(this);
   }
 
+  _arrayEquals(a, b) {
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   componentDidMount() {
     this.props.onRef(this);
 
@@ -77,7 +87,7 @@ class SelectValues extends React.Component {
   }
 
   onAnswer() {
-    this.props.onAnswer(this.state.answer);
+    this.props.onAnswer(this._arrayEquals(this.state.answer, this.props.expectedAnswer), this.state.answer);
   }
 
   render() {
@@ -88,7 +98,7 @@ class SelectValues extends React.Component {
         <View style={ styles.row }>
           {this.state.answers.map((answer, index) => {
             return (
-              <View style={[ styles.buttonContainer, { width: buttonWidth } ]} key={index}>
+              <View style={[ styles.buttonContainer ]} key={index}>
                 <MyButton
                   onPress={() => this.onButtonPress(answer.value)}
                   style={ styles.button }
@@ -153,7 +163,8 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,
-    height: 45
+    height: 45,
+    padding: 10
   },
   btnTextStyle: {
     fontSize: 20,
@@ -163,7 +174,8 @@ let styles = StyleSheet.create({
 
 SelectValues.propTypes = {
   onAnswer: PropTypes.func.isRequired,
-  answers: PropTypes.array.isRequired
+  answers: PropTypes.array.isRequired,
+  expectedAnswer: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default SelectValues;

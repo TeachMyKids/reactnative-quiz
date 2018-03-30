@@ -25,8 +25,8 @@ class SelectOne extends React.Component {
     this.onButtonPress = this.onButtonPress.bind(this);
   }
 
-  onButtonPress(newVal) {
-    this.props.onAnswer(newVal);
+  onButtonPress(answer) {
+    this.props.onAnswer(answer === this.props.expectedAnswer, answer);
   }
 
   render() {
@@ -84,7 +84,8 @@ let styles = StyleSheet.create({
 
 SelectOne.propTypes = {
   onAnswer: PropTypes.func.isRequired,
-  answers: PropTypes.array.isRequired
+  answers: PropTypes.array.isRequired,
+  expectedAnswer: PropTypes.any.isRequired
 };
 
 export default SelectOne;
