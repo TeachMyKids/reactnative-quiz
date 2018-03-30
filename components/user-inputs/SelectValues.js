@@ -12,10 +12,10 @@ class SelectValues extends React.Component {
     super(props, context);
 
     this.state = {
-      inputLength: this.props.inputLength,
+      inputLength: this.props.expectedAnswer.length,
       currentFieldIndex: 0,
       answers: this.props.answers.sort(function(a, b){return 0.5 - Math.random()}),
-      answer: new Array(this.props.inputLength),
+      answer: new Array(this.props.expectedAnswer.length),
       inputState: this.props.inputState
     };
 
@@ -24,6 +24,11 @@ class SelectValues extends React.Component {
   }
 
   _arrayEquals(a, b) {
+    if (!Array.isArray(a) || !Array.isArray(b)) return false;
+    if (a.length != b.length) return false;
+
+    a.sort();
+    b.sort();
     for (let i = 0; i < a.length; i++) {
       if (a[i] !== b[i]) {
         return false;
@@ -42,14 +47,9 @@ class SelectValues extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.answers !== this.state.answers) {
       this.setState({
-        answers: nextProps.answers.sort(function(a, b){return 0.5 - Math.random()})
+        answers: nextProps.answers.sort(function(a, b){return 0.5 - Math.random()}),
+        inputLength: nextProps.expectedAnswer.length
       })
-    }
-
-    if (nextProps.inputLength !== this.state.inputLength) {
-      this.setState({
-        inputLength: nextProps.inputLength
-      });
     }
 
     if (nextProps.inputState !== this.state.inputState) {

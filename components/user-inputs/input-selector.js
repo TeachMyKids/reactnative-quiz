@@ -19,7 +19,6 @@ function selector(props) {
         <inputs.SelectValues
           onAnswer={props.onAnswer}
           answers={props.record.input.answers}
-          inputLength={props.record.value.length}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
           inputState={props.inputState}
