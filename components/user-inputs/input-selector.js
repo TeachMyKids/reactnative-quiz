@@ -1,7 +1,10 @@
 import React from 'react';
 import * as inputs from './index';
 
-function selector(props) {
+import {observable, decorate, action} from "mobx";
+import {observer, Observer} from "mobx-react";
+
+function Selector(props) {
   switch (props.record.input.type) {
     case inputs.SelectOne:
       return (
@@ -51,4 +54,12 @@ function selector(props) {
   }
 }
 
-export default selector;
+export default (props) => {
+  return (
+    <Observer>
+      {() => {
+        return <Selector {...props} />;
+      } }
+    </Observer>
+  )
+};
