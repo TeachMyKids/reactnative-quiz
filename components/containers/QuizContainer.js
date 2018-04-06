@@ -152,6 +152,7 @@ class QuizContainer extends React.Component {
 
         <View style= { styles.userInput }>
           <InputSelector
+            id={this.currentQuestion.id}
             record={this.currentQuestion}
             onAnswer={this.onAnswer}
             onResultChange={this.onResultChange}

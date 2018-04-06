@@ -9,6 +9,7 @@ function Selector(props) {
     case inputs.SelectOne:
       return (
         <inputs.SelectOne
+          id={props.id}
           onAnswer={props.onAnswer}
           answers={props.record.input.answers}
           onRef={props.onRef}
@@ -20,6 +21,7 @@ function Selector(props) {
     case inputs.SelectValues:
       return (
         <inputs.SelectValues
+          id={props.id}
           onAnswer={props.onAnswer}
           answers={props.record.input.answers}
           onRef={props.onRef}
@@ -32,6 +34,7 @@ function Selector(props) {
     case inputs.NumberButtons:
       return (
         <inputs.NumberButtons
+          id={props.id}
           onAnswer={props.onAnswer}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
@@ -42,6 +45,7 @@ function Selector(props) {
     case inputs.EnterWord:
       return (
         <inputs.EnterWord
+          id={props.id}
           onAnswer={props.onAnswer}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
