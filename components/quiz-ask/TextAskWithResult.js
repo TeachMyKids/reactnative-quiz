@@ -7,36 +7,17 @@ let width = Dimensions.get('window').width;
 class TextAskWithResult extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.state = {
-      content: this.props.content,
-      promotedValue: this.props.promotedValue
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.content !== this.state.content) {
-      this.setState({
-        content: nextProps.content
-      });
-    }
-
-    if (nextProps.promotedValue !== this.state.promotedValue) {
-      this.setState({
-        promotedValue: nextProps.promotedValue
-      });
-    }
   }
 
   render() {
     return (
       <View style= { styles.screen }>
         <View style={ styles.questionContainer }>
-          <Text style={ styles.question }>{this.state.content}</Text>
+          <Text style={ styles.question }>{this.props.content}</Text>
         </View>
 
         <View style={ styles.answerContainer }>
-          <Text style={ styles.answer }>{this.state.promotedValue}</Text>
+          <Text style={ styles.answer }>{this.props.promotedValue}</Text>
         </View>
       </View>
     );

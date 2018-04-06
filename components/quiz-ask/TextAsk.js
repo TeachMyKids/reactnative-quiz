@@ -8,28 +8,13 @@ class TextAsk extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      content: this.props.content
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.content !== this.state.content) {
-      this.updateStatement(nextProps.content);
-    }
-  }
-
-  updateStatement(content) {
-    this.setState({
-      content
-    });
   }
 
   render() {
     return (
       <View style= { styles.screen }>
         <View style={ styles.questionContainer }>
-          <Text style={ styles.question }>{this.state.content}</Text>
+          <Text style={ styles.question }>{this.props.content}</Text>
         </View>
       </View>
     );
@@ -55,7 +40,7 @@ let styles = StyleSheet.create({
 });
 
 TextAsk.propTypes = {
-  content: PropTypes.string.isRequired
+  // content: PropTypes.string.isRequired
 };
 
 export default TextAsk;

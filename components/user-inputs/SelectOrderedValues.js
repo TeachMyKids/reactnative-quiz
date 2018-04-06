@@ -3,28 +3,29 @@ import { PropTypes } from 'prop-types';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Dimensions from 'Dimensions';
 
+import {observable, decorate, action, computed, reaction, autorun} from "mobx";
+import {observer, Observer} from "mobx-react";
+
 import MyButton from './Button';
 
 let width = Dimensions.get('window').width;
 
-class SelectOrderedValues extends React.Component {
+class SelectValues extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      inputLength: this.props.expectedAnswer.length,
-      currentFieldIndex: 0,
-      answers: this.props.answers.sort(function(a, b){return 0.5 - Math.random()}),
-      answer: new Array(this.props.expectedAnswer.length),
-      inputState: this.props.inputState
-    };
-
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onAnswer = this.onAnswer.bind(this);
+
   }
+
+  currentAnswers = [];
+  answer = new Array(this.props.expectedAnswer.length);
+  _answers = [];
 
   _arrayEquals(a, b) {
     if (!Array.isArray(a) || !Array.isArray(b)) return false;
+
     if (a.length != b.length) return false;
 
     for (let i = 0; i < a.length; i++) {
@@ -36,26 +37,18 @@ class SelectOrderedValues extends React.Component {
     return true;
   }
 
+  @computed get currentFieldIndex() {
+    return this.props.inputState.fillInBlank.fieldIndex;
+  }
+
+  @computed get newEmptyArray() {
+    return new Array(this.props.expectedAnswer.length);
+  }
+
   componentDidMount() {
     this.props.onRef(this);
 
     this.isComponentDidMounted = true;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.answers !== this.state.answers) {
-      this.setState({
-        answers: nextProps.answers.sort(function(a, b){return 0.5 - Math.random()}),
-        inputLength: nextProps.expectedAnswer.length
-      })
-    }
-
-    if (nextProps.inputState !== this.state.inputState) {
-      this.setState({
-        inputState: nextProps.inputState,
-        currentFieldIndex: nextProps.inputState.fillInBlank.fieldIndex
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -64,37 +57,51 @@ class SelectOrderedValues extends React.Component {
 
   reset() {
     if (this.isComponentDidMounted) {
-      this.setState({
-        answer: new Array(this.state.inputLength),
-        currentFieldIndex: 0
-      });
+      this.answer = new Array(this.props.expectedAnswer.length);
     }
   }
 
   onButtonPress(answer) {
-    let newAnswer = [
-      ...this.state.answer
-    ];
-    newAnswer[this.state.currentFieldIndex] = answer;
+    if (this.answer.length == 0) {
+      this.answer = this.newEmptyArray;
+    }
 
-    this.setState({
-      answer: newAnswer
-    });
+    let newAnswer = [
+      ...this.answer
+    ];
+
+    newAnswer[this.currentFieldIndex] = answer;
+
+    this.answer = newAnswer;
 
     this.props.onResultChange(newAnswer);
   }
 
+  @computed get expectedAnswer() {
+    return this.props.expectedAnswer;
+  }
+
   onAnswer() {
-    this.props.onAnswer(this._arrayEquals(this.state.answer, this.props.expectedAnswer), this.state.answer);
+    this.props.onAnswer(this._arrayEquals(this.answer, [...this.props.expectedAnswer]), this.answer);
+    this.answer = [];
+    this._answers = [];
+  }
+
+  @computed get answers() {
+    if (this._answers.length === 0) {
+      this._answers = this.props.answers.sort(function(a, b){return 0.5 - Math.random()});
+    }
+
+    return this._answers;
   }
 
   render() {
-    let buttonWidth = (width / this.props.answers.length) - 10; // subtract the padding by 10
 
+    let buttonWidth = (width / this.answers.length) - 10; // subtract the padding by 10
     return (
       <View style={ styles.main }>
         <View style={ styles.row }>
-          {this.state.answers.map((answer, index) => {
+          {this.answers.map((answer, index) => {
             return (
               <View style={[ styles.buttonContainer ]} key={index}>
                 <MyButton
@@ -170,10 +177,10 @@ let styles = StyleSheet.create({
   }
 });
 
-SelectOrderedValues.propTypes = {
+SelectValues.propTypes = {
   onAnswer: PropTypes.func.isRequired,
-  answers: PropTypes.array.isRequired,
-  expectedAnswer: PropTypes.arrayOf(PropTypes.string).isRequired
+  // answers: PropTypes.array.isRequired,
+  // expectedAnswer: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default SelectOrderedValues;
+export default SelectValues;
