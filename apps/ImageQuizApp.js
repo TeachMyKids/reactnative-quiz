@@ -12,19 +12,20 @@ export default class ImageQuizApp extends React.Component {
     let data = [];
 
     data.push({
+      id: 1,
       ask: {
         type: ImageAsk,
         content: require('../assets/images/5.jpg')
       },
-      answers: [
-        {text: 'A', value: 'A'},
-        {text: 'B', value: 'B'},
-        {text: 'C', value: 'C'},
-        {text: 'DDD DD', value: 'D'}
-      ],
       value: 'D',
       input: {
-        type: SelectOne
+        type: SelectOne,
+        answers: [
+          {text: 'A', value: 'A'},
+          {text: 'B', value: 'B'},
+          {text: 'C', value: 'C'},
+          {text: 'DDD DD', value: 'D'}
+        ]
       }
     });
 
