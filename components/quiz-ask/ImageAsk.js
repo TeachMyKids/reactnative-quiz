@@ -4,32 +4,21 @@ import { StyleSheet, Image, View } from 'react-native';
 import Dimensions from 'Dimensions';
 let width = Dimensions.get('window').width;
 
+import {observable, decorate, action, computed} from "mobx";
+import {observer, Observer} from "mobx-react";
+
 class ImageAsk extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.state = {
-      source: this.props.content
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.content !== this.state.source) {
-      this.updateStatement(nextProps.content);
-    }
-  }
-
-  updateStatement(content) {
-    this.setState({
-      source: content
-    });
   }
 
   render() {
     return (
       <View style= { styles.screen }>
         <View style={ styles.questionContainer }>
-          <Image style={ styles.question } source={this.state.source} resizeMode="cover" />
+          <Observer>
+            {() => <Image style={ styles.question } source={this.props.content} resizeMode="cover" />}
+          </Observer>
         </View>
       </View>
     );
