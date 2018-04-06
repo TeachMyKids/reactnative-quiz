@@ -6,7 +6,7 @@ import Toast from 'react-native-root-toast';
 
 // mobx
 import {observable, decorate, action, computed} from "mobx";
-import {observer, Observer} from "mobx-react";
+import {observer, Observer, inject} from "mobx-react";
 
 import * as ask from '../quiz-ask/index';
 
@@ -207,7 +207,7 @@ let styles = StyleSheet.create({
 });
 
 QuizContainer.propTypes = {
-  data: PropTypes.array.isRequired
+  // data: PropTypes.array.isRequired
 };
 
 decorate(QuizContainer, {
@@ -222,4 +222,6 @@ decorate(QuizContainer, {
   // setAge: action
 })
 
-export default QuizContainer;
+export default inject(stores => ({
+  data: stores.appData.data
+}))(QuizContainer);
