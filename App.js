@@ -1,3 +1,3 @@
-import { ImageWithFillInApp } from './apps';
+import { LengthMeasurementApp } from './apps';
 
-export default ImageWithFillInApp;
+export default LengthMeasurementApp;
