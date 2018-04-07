@@ -48,7 +48,7 @@ class QuizContainer extends React.Component {
   }
 
   updateInputState = (type, event) => {
-    if (type === ask.FillInBlank) {
+    if ([ask.FillInBlank, ask.ImageWithFillIn].indexOf(type) != -1) {
       if (event.method === 'UPDATE_INDEX') {
         this.inputState.fillInBlank.fieldIndex = event.data;
       }
@@ -124,17 +124,18 @@ class QuizContainer extends React.Component {
 
     return (
       <View style={ styles.homeContainer }>
-        <Toast
-            visible={this.visible}
-            position={50}
-            backgroundColor={'green'}
-            textColor={'#fff'}
-            shadow={false}
-            animation={false}
-            hideOnPress={true}>This is a message</Toast>
-
+        {/* <Toast
+          visible={this.visible}
+          position={50}
+          backgroundColor={'green'}
+          textColor={'#fff'}
+          shadow={false}
+          animation={false}
+          hideOnPress={true}>This is a message</Toast>
+        */}
         <Ask
           content={this.currentQuestion.ask.content}
+          image={this.currentQuestion.ask.image}
           promotedValue={this.promotedValue}
           onChange={this.updateInputState}
           inputState={this.inputState}
@@ -195,7 +196,7 @@ let styles = StyleSheet.create({
     paddingTop: 20,
     width: width,
     backgroundColor: '#ddd',
-    height: 270
+    height: 170
   },
   btnActions: {
     width: width - 10,
