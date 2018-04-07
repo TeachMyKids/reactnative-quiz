@@ -19,3 +19,5 @@ yarn-error.log*
 yarn.lock
 android/app/build/intermediates/
 android/.gradle/*
+android/build/
+android/app/build/
