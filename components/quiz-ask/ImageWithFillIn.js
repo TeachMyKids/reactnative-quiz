@@ -77,7 +77,7 @@ class ImageWithFillIn extends React.Component {
     return (
       <View style= { styles.screen }>
         <View style={[ styles.imageContainer ]}>
-          <Image style={ styles.image } source={this.props.image} resizeMode="cover" />
+          <Image style={ styles.image } source={this.props.image} resizeMode="contain" />
         </View>
         <View style={ [styles.questionContainer, styles.question] }>
           {
@@ -120,10 +120,14 @@ let styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    width: width
+    width: width,
+    alignItems: 'center'
   },
   image: {
-    flex:1, width: width, height: null
+    flex:1,
+    width: width,
+    height: null,
+
   },
   question: {
     marginTop: 20,
