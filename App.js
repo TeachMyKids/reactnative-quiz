@@ -1,3 +1,3 @@
-import { FillInBlankApp } from './apps';
+import { ImageWithFillInApp } from './apps';
 
-export default FillInBlankApp;
+export default ImageWithFillInApp;
