@@ -51,14 +51,9 @@ class SelectValues extends React.Component {
     this.isComponentDidMounted = true;
   }
 
-  componentWillUnmount() {
-    this.isComponentDidMounted = false;
-  }
-
   reset() {
-    if (this.isComponentDidMounted) {
-      this.answer = new Array(this.props.expectedAnswer.length);
-    }
+    this.answer = [];
+    this._answers = [];
   }
 
   onButtonPress(answer) {
@@ -83,8 +78,7 @@ class SelectValues extends React.Component {
 
   onAnswer() {
     this.props.onAnswer(this._arrayEquals(this.answer, [...this.props.expectedAnswer]), this.answer);
-    this.answer = [];
-    this._answers = [];
+    this.reset();
   }
 
   @computed get answers() {
