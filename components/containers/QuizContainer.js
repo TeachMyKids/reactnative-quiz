@@ -58,12 +58,12 @@ class QuizContainer extends React.Component {
   next() {
     if (this.index === this.props.data.length - 1) {
       this.index = 0;
-      this.promotedValue = '';
       this.data = this.props.data.sort(function(a, b){return 0.5 - Math.random()});
     } else {
       this.index += 1;
-      this.promotedValue = '';
     }
+
+    this.promotedValue = '';
 
     this.resetInputState();
 
@@ -196,14 +196,14 @@ let styles = StyleSheet.create({
     paddingTop: 20,
     width: width,
     backgroundColor: '#ddd',
-    height: 170
+    height: 190
   },
   btnActions: {
     width: width - 10,
     marginRight: 30,
     alignItems: 'flex-end',
-    marginBottom: 20,
-    marginTop: 20
+    marginBottom: 5,
+    marginTop: 5
   }
 });
 
