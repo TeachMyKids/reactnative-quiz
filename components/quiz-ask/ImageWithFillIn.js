@@ -123,7 +123,7 @@ let styles = StyleSheet.create({
     width: width
   },
   image: {
-    flex:1, width: null, height: null
+    flex:1, width: width, height: null
   },
   question: {
     marginTop: 20,
