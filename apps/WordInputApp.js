@@ -10,6 +10,7 @@ export default class WordInputApp extends React.Component {
     this.props = props;
 
     let data = [{
+      id: 1,
       ask: {
         type: ImageAsk,
         content: require('../assets/images/5.jpg')
@@ -23,9 +24,10 @@ export default class WordInputApp extends React.Component {
       }
     },
     {
+      id: 2,
       ask: {
         type: ImageAsk,
-        content: require('../assets/images/5.jpg')
+        content: require('../assets/images/4.jpg')
       },
       value: 'COW',
       input: {
@@ -35,9 +37,10 @@ export default class WordInputApp extends React.Component {
         ]
       }
     },{
+      id: 3,
       ask: {
         type: ImageAsk,
-        content: require('../assets/images/5.jpg')
+        content: require('../assets/images/3.jpg')
       },
       value: 'HAPPY',
       input: {

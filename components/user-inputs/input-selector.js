@@ -1,11 +1,15 @@
 import React from 'react';
 import * as inputs from './index';
 
-function selector(props) {
+import {observable, decorate, action} from "mobx";
+import {observer, Observer} from "mobx-react";
+
+function Selector(props) {
   switch (props.record.input.type) {
     case inputs.SelectOne:
       return (
         <inputs.SelectOne
+          id={props.id}
           onAnswer={props.onAnswer}
           answers={props.record.input.answers}
           onRef={props.onRef}
@@ -17,6 +21,7 @@ function selector(props) {
     case inputs.SelectValues:
       return (
         <inputs.SelectValues
+          id={props.id}
           onAnswer={props.onAnswer}
           answers={props.record.input.answers}
           onRef={props.onRef}
@@ -29,6 +34,7 @@ function selector(props) {
     case inputs.NumberButtons:
       return (
         <inputs.NumberButtons
+          id={props.id}
           onAnswer={props.onAnswer}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
@@ -39,6 +45,7 @@ function selector(props) {
     case inputs.EnterWord:
       return (
         <inputs.EnterWord
+          id={props.id}
           onAnswer={props.onAnswer}
           onRef={props.onRef}
           onResultChange={props.onResultChange}
@@ -51,4 +58,12 @@ function selector(props) {
   }
 }
 
-export default selector;
+export default (props) => {
+  return (
+    <Observer>
+      {() => {
+        return <Selector {...props} />;
+      } }
+    </Observer>
+  )
+};

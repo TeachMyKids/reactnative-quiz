@@ -2,26 +2,36 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
 import Dimensions from 'Dimensions';
+
+import {observable, decorate, action, computed} from "mobx";
+import {observer, Observer} from "mobx-react";
+
 let width = Dimensions.get('window').width;
 
+function getType() {
+  return FillInBlank;
+}
+
+@observer
 class FillInBlank extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    let { words, answer } = this._extract(this.props.content);
-
-    this.state = {
-      content: this.props.content,
-      words,
-      answer,
-      currentIndex: 0,
-      promotedValue: this.props.promotedValue
-    };
-
     this.onPress = this.onPress.bind(this);
   }
 
-  _extract(string) {
+  content = null;
+
+  i = 0;
+
+  @computed get currentQuestion() {
+    if (this.content === this.props.content) {
+      return this.question;
+    }
+
+    this.content = this.props.content;
+    let string = this.props.content;
+
     let parts = string.trim().split(' ');
     const pattern = /[_]+/;
 
@@ -48,61 +58,34 @@ class FillInBlank extends React.Component {
       }
     });
 
-    return {
+    this.question = {
       words,
       answer
     };
-  }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.content !== this.state.content) {
-      this.updateStatement(nextProps.content);
-    }
-
-    if (nextProps.promotedValue !== this.state.promotedValue) {
-      this.setState({
-        promotedValue: nextProps.promotedValue
-      });
-    }
-  }
-
-  updateStatement(content) {
-    let { words, answer } = this._extract(content);
-
-    this.setState({
-      content,
-      words,
-      answer,
-      currentIndex: 0
-    });
+    return this.question;
   }
 
   onPress(word) {
-    this.setState({
-      currentIndex: word.index
-    });
-
-    this.props.onChange({
+    this.props.onChange(getType(), {
       method: 'UPDATE_INDEX',
       data: word.index
     });
   }
 
   render() {
-
-    // console.log(this.state.promotedValue);
     return (
       <View style= { styles.screen }>
         <View style={ styles.questionContainer }>
           {
-            this.state.words.map((word, index) => {
+            this.currentQuestion.words.map((word, index) => {
               if (word.isBlankField) {
                 return (
                   <TouchableWithoutFeedback key={index} onPress={() => {
                     this.onPress(word)
                   }}>
-                    <View style={[ styles.blankFieldContainer , word.index === this.state.currentIndex ? styles.selectedBlankFieldContainer : null ]}>
-                      <Text style={ styles.textInBlank }>{(this.state.promotedValue && this.state.promotedValue[word.index]) ? this.state.promotedValue[word.index] : word.word} </Text>
+                    <View style={[ styles.blankFieldContainer , word.index === this.props.inputState.fillInBlank.fieldIndex ? styles.selectedBlankFieldContainer : null ]}>
+                      <Text style={ styles.textInBlank }>{(this.props.promotedValue && this.props.promotedValue[word.index]) ? this.props.promotedValue[word.index] : word.word} </Text>
                     </View>
                   </TouchableWithoutFeedback>
                 )
@@ -155,5 +138,11 @@ let styles = StyleSheet.create({
 FillInBlank.propTypes = {
   content: PropTypes.string.isRequired
 };
+
+decorate(FillInBlank, {
+  currentIndex: observable,
+  autoUpdate: observable,
+  promotedValue: observable
+});
 
 export default FillInBlank;

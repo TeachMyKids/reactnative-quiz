@@ -1,7 +1,7 @@
 import React from 'react';
-import { MathContainer } from '../components/containers';
+import { QuizContainer } from '../components/containers';
 import { StyleSheet, Text, View } from 'react-native';
-import { TextAsk } from '../components/quiz-ask';
+import { TextAskWithResult } from '../components/quiz-ask';
 import { NumberButtons } from '../components/user-inputs';
 
 export default class App extends React.Component {
@@ -13,8 +13,9 @@ export default class App extends React.Component {
     for (let i = 2; i <= 5; i++) {
       for (let j = 1; j <= 10; j++) {
         data.push({
+          id: i*j,
           ask: {
-            type: TextAsk,
+            type: TextAskWithResult,
             content: `${i} x ${j} = `
           },
           value: i * j,
@@ -28,8 +29,9 @@ export default class App extends React.Component {
     for (let i = 2; i <= 5; i++) {
       for (let j = 1; j <= 10; j++) {
         data.push({
+          id: i*j,
           ask: {
-            type: TextAsk,
+            type: TextAskWithResult,
             content: `${(i * j)} : ${i} = `
           },
           value: j,
@@ -48,7 +50,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <MathContainer data={this.state.data} />
+        <QuizContainer data={this.state.data} />
       </View>
     );
   }

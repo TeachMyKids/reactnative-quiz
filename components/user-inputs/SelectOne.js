@@ -84,7 +84,7 @@ let styles = StyleSheet.create({
 
 SelectOne.propTypes = {
   onAnswer: PropTypes.func.isRequired,
-  answers: PropTypes.array.isRequired,
+  // answers: mobxPropTypes.observableArray.isRequired,
   expectedAnswer: PropTypes.any.isRequired
 };
 

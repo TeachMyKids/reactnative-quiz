@@ -5,8 +5,11 @@ import MyButton from './Button';
 import Dimensions from 'Dimensions';
 let width = Dimensions.get('window').width;
 
+
+import {observable, decorate, action, computed} from "mobx";
+import {observer, Observer} from "mobx-react";
+
 function CharInput(props) {
-  // console.log(props.isHighlight)
   return (
     <TouchableWithoutFeedback onPress={props.onPress}>
       <View style={[ props.style, props.isHighlight ? props.charHighlightStyle: null ]}>
@@ -16,95 +19,70 @@ function CharInput(props) {
   )
 }
 
+@observer
 class EnterWord extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.onAnswer = this.onAnswer.bind(this);
+  }
 
-    this.state = {
-      wordLength: this.props.wordLength,
-      symbols: this.props.symbols.sort(function(a, b){return 0.5 - Math.random()}),
-      currentCharIndex: 0,
-      chars: new Array(this.props.wordLength)
+  id = this.props.id;
+
+  @observable chars = new Array(this.props.wordLength);
+  @observable symbols = this.props.symbols.sort(function(a, b){return 0.5 - Math.random()});
+  @observable currentCharIndex = 0;
+
+  componentWillReact() {
+    if (this.id != this.props.id) {
+      this.chars = new Array(this.props.wordLength);
+      this.symbols = this.props.symbols.sort(function(a, b){return 0.5 - Math.random()});
+      this.currentCharIndex = 0;
+      this.id = this.props.id;
     }
   }
 
   componentDidMount() {
     this.props.onRef(this);
-
-    this.isComponentDidMounted = true;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.symbols !== this.state.symbols) {
-      this.setState({
-        symbols: nextProps.symbols.sort(function(a, b){return 0.5 - Math.random()})
-      })
-    }
-
-    if (nextProps.wordLength !== this.state.wordLength) {
-      this.setState({
-        wordLength: nextProps.wordLength
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    this.isComponentDidMounted = false;
-  }
-
-  reset() {
-    if (this.isComponentDidMounted) {
-      this.setState({
-        chars: new Array(this.state.wordLength),
-        currentCharIndex: 0
-      });
-    }
   }
 
   buttonPress(char) {
     let newAnswer = [
-      ...this.state.chars
+      ...this.chars
     ];
-    newAnswer[this.state.currentCharIndex] = char;
 
-    let currentCharIndex = this.state.currentCharIndex;
-    if (this.state.currentCharIndex < this.state.wordLength - 1) {
-      currentCharIndex = currentCharIndex + 1;
+    newAnswer[this.currentCharIndex] = char;
+
+    if (this.currentCharIndex < this.props.wordLength - 1) {
+      this.currentCharIndex++;
     }
 
-    this.setState({
-      currentCharIndex,
-      chars: newAnswer
-    });
+    this.chars = newAnswer;
 
     this.props.onResultChange(newAnswer.join(''));
   }
 
   setCharIndex(index) {
-    this.setState({
-      currentCharIndex: index
-    });
+    this.currentCharIndex = index;
   }
 
   onAnswer() {
-    let answer = this.state.chars.join('');
+    let answer = this.chars.join('');
     this.props.onAnswer(answer === this.props.expectedAnswer, answer);
   }
 
   render() {
     let inputs = [];
-    for (let i = 0; i < this.state.wordLength; i++) {
+    for (let i = 0; i < this.props.wordLength; i++) {
       inputs.push(
         <CharInput key={i}
           onPress={() => {
             this.setCharIndex(i)
           }}
-          char={this.state.chars[i]}
+          char={this.chars[i]}
           style={ styles.charInputContainer }
           textStyle={ styles.charInput }
-          isHighlight={i === this.state.currentCharIndex}
+          isHighlight={i === this.currentCharIndex}
           charHighlightStyle={ styles.charHighlightStyle }
         />
       );
@@ -116,7 +94,7 @@ class EnterWord extends React.Component {
           {inputs}
         </View>
         <View style={ styles.wordButtonContainer }>
-          {this.state.symbols.map((char, index) => {
+          {this.symbols.map((char, index) => {
             return (
               <MyButton
                 key={index}
@@ -254,12 +232,12 @@ let styles = StyleSheet.create({
 });
 
 EnterWord.propTypes = {
-  onResultChange: PropTypes.func.isRequired,
-  onAnswer: PropTypes.func.isRequired,
-  onRef: PropTypes.func.isRequired,
-  wordLength: PropTypes.number.isRequired,
-  symbols: PropTypes.arrayOf(PropTypes.string),
-  expectedAnswer: PropTypes.string.isRequired
+  // onResultChange: PropTypes.func.isRequired,
+  // onAnswer: PropTypes.func.isRequired,
+  // onRef: PropTypes.func.isRequired,
+  // wordLength: PropTypes.number.isRequired,
+  // symbols: PropTypes.arrayOf(PropTypes.string),
+  // expectedAnswer: PropTypes.string.isRequired
 };
 
 export default EnterWord;
