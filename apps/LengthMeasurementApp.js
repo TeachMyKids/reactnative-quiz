@@ -7,10 +7,14 @@ import { SelectValues, SelectOne } from '../components/user-inputs';
 import { Provider } from 'mobx-react';
 import {observable, decorate, action, computed} from "mobx";
 
+import firebase from 'react-native-firebase';
+
 export default class LengthMeasurementApp extends React.Component {
   constructor(props) {
     super();
     this.props = props;
+
+    this.ref = firebase.firestore().collection('quizs');
   }
 
   @observable data = [
