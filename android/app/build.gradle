@@ -95,7 +95,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.mathquiz"
@@ -137,7 +137,7 @@ android {
 }
 
 dependencies {
-    implementation(project(':react-native-firebase')) {
+    compile(project(':react-native-firebase')) {
         transitive = false
     }
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -146,7 +146,11 @@ dependencies {
 
     // Firebase dependencies
     implementation 'com.google.firebase:firebase-core:12.0.1'
-    
+    implementation "com.google.firebase:firebase-database:12.0.1"
+    implementation(project(':react-native-firebase')) {
+        transitive = false
+    }
+
 }
 
 // Run this once to be able to run the application with BUCK
@@ -155,4 +159,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-apply plugin: 'com.google.gms.google-services'
