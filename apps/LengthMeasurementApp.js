@@ -16,12 +16,50 @@ export default class LengthMeasurementApp extends React.Component {
 
     this.ref = firebase.firestore().collection('todos');
 
-    this.ref.add({
-      title: 'Test todo',
-      complete: false,
+    // this.ref.add({
+    //   title: 'Test todo',
+    //   complete: false,
+    // });
+
+    // console.log(this.ref);
+    console.log("========================== Query =========================")
+    var query = this.ref.where("title", "==", "Test todo 12").get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        console.log(doc.id, '=>', doc.data());
+      });
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
     });
 
-    console.log(this.ref);
+  }
+
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = (querySnapshot) => {
+   //  const todos = [];
+   //  querySnapshot.forEach((doc) => {
+   //    const { title, complete } = doc.data();
+   //    todos.push({
+   //      key: doc.id,
+   //      doc, // DocumentSnapshot
+   //      title,
+   //      complete,
+   //    });
+   //  });
+   //  this.setState({
+   //    todos,
+   //    loading: false,
+   // });
+   // console.log("========================== Snapshot =========================")
+   // console.log(todos)
   }
 
   @observable data = [
