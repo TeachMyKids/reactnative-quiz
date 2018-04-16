@@ -13,6 +13,15 @@ export default class LengthMeasurementApp extends React.Component {
   constructor(props) {
     super();
     this.props = props;
+
+    this.ref = firebase.firestore().collection('todos');
+
+    this.ref.add({
+      title: 'Test todo',
+      complete: false,
+    });
+
+    console.log(this.ref);
   }
 
   @observable data = [
