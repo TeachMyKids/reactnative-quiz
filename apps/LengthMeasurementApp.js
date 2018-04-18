@@ -14,16 +14,10 @@ export default class LengthMeasurementApp extends React.Component {
     super();
     this.props = props;
 
-    this.ref = firebase.firestore().collection('todos');
+    this.ref = firebase.firestore().collection('length-measurement-quiz');
 
-    // this.ref.add({
-    //   title: 'Test todo',
-    //   complete: false,
-    // });
-
-    // console.log(this.ref);
-    console.log("========================== Query =========================")
-    var query = this.ref.where("title", "==", "Test todo 12").get()
+    // console.log("========================== Query =========================")
+    var query = this.ref.get()
     .then(snapshot => {
       snapshot.forEach(doc => {
         console.log(doc.id, '=>', doc.data());
@@ -32,7 +26,6 @@ export default class LengthMeasurementApp extends React.Component {
     .catch(err => {
       console.log('Error getting documents', err);
     });
-
   }
 
   componentDidMount() {
